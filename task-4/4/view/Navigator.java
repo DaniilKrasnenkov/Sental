@@ -27,5 +27,7 @@ public class Navigator {
         this.currentMenu=m;
     }
 
-
+    public Menu getCurrentMenu() {
+        return currentMenu;
+    }
 }

@@ -161,11 +161,11 @@ public class Main {
                 ButtonPrintDescription description = new ButtonPrintDescription(book, navigator);
                 ButtonAuthor author = new ButtonAuthor(book, navigator);
 
-                MenuItem item1 = new MenuItem(order, "Заказ");
-                MenuItem item2 = new MenuItem(book, "Книга");
+                MenuItem item1 = new MenuItem(order, "1. Заказ");
+                MenuItem item2 = new MenuItem(book, "2. Книга");
                 item2.setNextMenu(bookMenu);
-                MenuItem itemb_1 = new MenuItem(description, "Посмотреть описание");
-                MenuItem itemb_2 = new MenuItem(author, "Автор");
+                MenuItem itemb_1 = new MenuItem(description, "1. Посмотреть описание");
+                MenuItem itemb_2 = new MenuItem(author, "2. Автор");
 
                 buttons1.add(item1);
                 buttons1.add(item2);
@@ -173,7 +173,6 @@ public class Main {
                 buttons2.add(itemb_2);
 
                 navigator.printMenu();
-                System.out.println(item1.getTitle());
 
         }
 }
