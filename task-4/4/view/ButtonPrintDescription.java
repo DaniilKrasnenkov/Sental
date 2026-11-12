@@ -13,7 +13,7 @@ public class ButtonPrintDescription implements IAction{
 
     @Override
     public void execute() {
-        book.getBook().getDescription();
+        System.out.println(book.getBook().getDescription());
     }
 }
 

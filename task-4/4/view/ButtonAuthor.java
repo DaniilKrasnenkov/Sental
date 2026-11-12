@@ -13,6 +13,6 @@ public class ButtonAuthor implements IAction{
 
     @Override
     public void execute() {
-        book.getBook().getAuthor();
+        System.out.println(book.getBook().getAuthor());
     }
 }

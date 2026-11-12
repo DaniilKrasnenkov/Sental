@@ -20,7 +20,9 @@ public class Navigator {
         }
     }
 
-    public void navigate(Integer index){}
+    public void navigate(Menu menu){
+        setCurrentMenu(menu);
+    }
 
 
     public void setCurrentMenu(Menu m) {

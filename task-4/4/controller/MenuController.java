@@ -6,17 +6,16 @@ import view.Navigator;
 
 import java.util.Scanner;
 
-Scanner scanner = new Scanner(System.in);
-
 public class MenuController {
     private Builder builder;
     private Navigator navigator;
     boolean work;
+    private Scanner scanner;
 
-    public MenuController(Builder builder, Navigator navigator) {
-        this.builder = builder;
+    public MenuController(Navigator navigator) {
         this.navigator = navigator;
         this.work = true;
+        this.scanner = new Scanner(System.in);
     }
 
     public int in(){
@@ -24,13 +23,17 @@ public class MenuController {
         return a;
     }
 
-    public void start(){
-        while(work){
-            if(0<this.in() && this.in()<navigator.getCurrentMenu().getMenuitems().size()) {
-                builder.getRootMenu().getMenuitems().get(this.in() - 1).doAction();
-            }
-            if(in()==0){
-                work=false;
+    public void start() {
+        while (work) {
+            navigator.printMenu();
+            int choice = in();
+
+            if (choice == 0) {
+                work = false;
+            } else if(choice >= 1 && choice <= navigator.getCurrentMenu().getMenuitems().size()) {
+                navigator.getCurrentMenu().getMenuitems().get(choice - 1).doAction();
+            } else {
+                System.out.println("Нет такого пункта");
             }
         }
     }

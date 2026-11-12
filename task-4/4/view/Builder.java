@@ -2,43 +2,46 @@ package view;
 
 import model.Book;
 
-import java.util.ArrayList;
-
 public class Builder {
+    private final Factory factory;
+    private final Book book;          // модель приходит снаружи, Builder её не создаёт
     private Menu rootMenu;
+    private Navigator navigator;
 
-    public void buildMenu(){}
+    public Builder(Factory factory, Book book) {
+        this.factory = factory;
+        this.book = book;
+    }
 
     public Menu getRootMenu() {
         return rootMenu;
     }
-    // создание кнопок и меню
-    public void build(){
-        Book alice = new Book("Алиса в стране чудес", true);
-        ArrayList<MenuItem> buttons1=new ArrayList<MenuItem>();
-        ArrayList<MenuItem> buttons2=new ArrayList<MenuItem>();
 
-        Menu mainMenu = new Menu("Главное меню", buttons1);
-        Menu bookMenu = new Menu("Главное меню", buttons1);
-        Navigator navigator = new Navigator(mainMenu);
+    public Navigator getNavigator() {
+        return navigator;
+    }
 
-        ButtonOrder order = new ButtonOrder(mainMenu,navigator);
-        ButtonBook book = new ButtonBook(bookMenu,navigator, alice);
-        ButtonPrintDescription description = new ButtonPrintDescription(book, navigator);
-        ButtonAuthor author = new ButtonAuthor(book, navigator);
+    public void build() {
+        Menu mainMenu  = factory.createMenu("Главное меню");
+        Menu orderMenu = factory.createMenu("Заказы");
+        Menu bookMenu  = factory.createMenu("Книга");
+        rootMenu = mainMenu;
 
-        MenuItem item1 = new MenuItem(order, "Заказ");
-        MenuItem item2 = new MenuItem(book, "Книга");
-        item2.setNextMenu(bookMenu);
-        MenuItem itemb_1 = new MenuItem(description, "Посмотреть описание");
-        MenuItem itemb_2 = new MenuItem(author, "Автор");
+        navigator = new Navigator(mainMenu);
 
-        buttons1.add(item1);
-        buttons1.add(item2);
-        buttons2.add(itemb_1);
-        buttons2.add(itemb_2);
+        ButtonOrder toOrders = new ButtonOrder(orderMenu, navigator);
+        ButtonBook toBook = new ButtonBook(bookMenu, navigator, book);
+        ButtonPrintDescription showDescription = new ButtonPrintDescription(toBook, navigator);
+        ButtonAuthor showAuthor = new ButtonAuthor(toBook, navigator);
+        ButtonOrder backToMain = new ButtonOrder(mainMenu, navigator);
 
-        navigator.printMenu();
-        System.out.println(item1.getTitle());
+        mainMenu.getMenuitems().add(factory.createMenuItem(toOrders, "Заказы"));
+        mainMenu.getMenuitems().add(factory.createMenuItem(toBook, "Книга"));
+
+        bookMenu.getMenuitems().add(factory.createMenuItem(showDescription, "Посмотреть описание"));
+        bookMenu.getMenuitems().add(factory.createMenuItem(showAuthor, "Автор"));
+        bookMenu.getMenuitems().add(factory.createMenuItem(backToMain, "Назад"));
+
+        orderMenu.getMenuitems().add(factory.createMenuItem(backToMain, "Назад"));
     }
 }

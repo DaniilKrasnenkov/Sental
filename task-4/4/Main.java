@@ -1,3 +1,4 @@
+import controller.MenuController;
 import model.*;
 import view.*;
 
@@ -147,32 +148,14 @@ public class Main {
 //                for (Order o : shop.getOrders()) {
 //                        System.out.println(o.getBook().getName() + " " + o.getStatus());
 //                }
-                // ТЕСТ 1: Проверка сортировки по цене
 
-                ArrayList<MenuItem> buttons1=new ArrayList<MenuItem>();
-                ArrayList<MenuItem> buttons2=new ArrayList<MenuItem>();
+                Factory factory = new Factory();
 
-                Menu mainMenu = new Menu("Главное меню", buttons1);
-                Menu bookMenu = new Menu("Главное меню", buttons1);
-                Navigator navigator = new Navigator(mainMenu);
+                Builder builder = new Builder(factory, alice);
+                builder.build();
+                MenuController controller = new MenuController(builder.getNavigator());
 
-                ButtonOrder order = new ButtonOrder(mainMenu,navigator);
-                ButtonBook book = new ButtonBook(bookMenu,navigator, alice);
-                ButtonPrintDescription description = new ButtonPrintDescription(book, navigator);
-                ButtonAuthor author = new ButtonAuthor(book, navigator);
-
-                MenuItem item1 = new MenuItem(order, "1. Заказ");
-                MenuItem item2 = new MenuItem(book, "2. Книга");
-                item2.setNextMenu(bookMenu);
-                MenuItem itemb_1 = new MenuItem(description, "1. Посмотреть описание");
-                MenuItem itemb_2 = new MenuItem(author, "2. Автор");
-
-                buttons1.add(item1);
-                buttons1.add(item2);
-                buttons2.add(itemb_1);
-                buttons2.add(itemb_2);
-
-                navigator.printMenu();
+                controller.start();
 
         }
 }

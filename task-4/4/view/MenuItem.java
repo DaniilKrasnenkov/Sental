@@ -5,7 +5,7 @@ public class MenuItem {
     private IAction action;
     private Menu nextMenu;
 
-    public void doAction(){
+    public void doAction() {
         action.execute();
     }
 
