@@ -1,15 +1,17 @@
 package view;
 
 import model.Book;
+import model.Shop;
 
 public class Builder {
-    private final Factory factory;
-    private final Book book;          // модель приходит снаружи, Builder её не создаёт
+    private final ConsoleFactory consoleFactory;
+    private final Book book;
+    private Shop shop;
     private Menu rootMenu;
     private Navigator navigator;
 
-    public Builder(Factory factory, Book book) {
-        this.factory = factory;
+    public Builder(ConsoleFactory consoleFactory, Book book) {
+        this.consoleFactory = consoleFactory;
         this.book = book;
     }
 
@@ -22,26 +24,41 @@ public class Builder {
     }
 
     public void build() {
-        Menu mainMenu  = factory.createMenu("Главное меню");
-        Menu orderMenu = factory.createMenu("Заказы");
-        Menu bookMenu  = factory.createMenu("Книга");
+        //Главное меню
+        //├── Заказы
+        //│     ├── Список заказов (по статусу / по дате исполнения / по цене)
+        //│     ├── Создать заказ          (здесь вводим данные покупателя)
+        //│     ├── Отменить заказ
+        //│     ├── Сменить статус заказа
+        //│     ├── Детали заказа
+        //│     └── Статистика за период  (выполненные заказы, количество, сумма)
+        //├── Запросы
+        //│     ├── Список запросов (по количеству / по алфавиту)
+        //│     └── Оставить запрос на книгу
+        //├── Склад
+        //│     ├── Список книг (по алфавиту / по дате издания / по цене / по наличию)
+        //│     ├── Залежавшиеся книги (по дате поступления / по цене)
+        //│     ├── Добавить книгу
+        //│     ├── Списать книгу
+        //│     └── Найти книгу и посмотреть всё о ней
+        //└── Выход
+
+        Menu mainMenu  = consoleFactory.createMenu("Главное меню");
+        Menu orderMenu = consoleFactory.createMenu("Заказы");
+        Menu ListorderMenu = consoleFactory.createMenu("Список заказов");
+        Menu bookMenu  = consoleFactory.createMenu("Книга");
+        Menu RequestMenu = consoleFactory.createMenu("Запросы");
         rootMenu = mainMenu;
 
         navigator = new Navigator(mainMenu);
 
-        ButtonOrder toOrders = new ButtonOrder(orderMenu, navigator);
-        ButtonBook toBook = new ButtonBook(bookMenu, navigator, book);
-        ButtonPrintDescription showDescription = new ButtonPrintDescription(toBook, navigator);
-        ButtonAuthor showAuthor = new ButtonAuthor(toBook, navigator);
-        ButtonOrder backToMain = new ButtonOrder(mainMenu, navigator);
+        mainMenu.getMenuitems().add(consoleFactory.createMenuItem(() -> navigator.navigate(orderMenu), "Заказы"));
+        mainMenu.getMenuitems().add(consoleFactory.createMenuItem(()-> navigator.navigate(bookMenu), "Книга"));
+        bookMenu.getMenuitems().add(consoleFactory.createMenuItem(()-> navigator.navigate(mainMenu), "Назад"));
 
-        mainMenu.getMenuitems().add(factory.createMenuItem(toOrders, "Заказы"));
-        mainMenu.getMenuitems().add(factory.createMenuItem(toBook, "Книга"));
+        bookMenu.getMenuitems().add(consoleFactory.createMenuItem(() -> System.out.println(this.book.getDescription()), "Посмотреть описание"));
+        bookMenu.getMenuitems().add(consoleFactory.createMenuItem(() -> , "Автор"));
 
-        bookMenu.getMenuitems().add(factory.createMenuItem(showDescription, "Посмотреть описание"));
-        bookMenu.getMenuitems().add(factory.createMenuItem(showAuthor, "Автор"));
-        bookMenu.getMenuitems().add(factory.createMenuItem(backToMain, "Назад"));
-
-        orderMenu.getMenuitems().add(factory.createMenuItem(backToMain, "Назад"));
+        orderMenu.getMenuitems().add(consoleFactory.createMenuItem(backToMain, "Назад"));
     }
 }

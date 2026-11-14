@@ -149,13 +149,19 @@ public class Main {
 //                        System.out.println(o.getBook().getName() + " " + o.getStatus());
 //                }
 
-                Factory factory = new Factory();
+                ConsoleFactory consoleFactory = new ConsoleFactory();
 
-                Builder builder = new Builder(factory, alice);
+                Builder builder = new Builder(consoleFactory, alice);
                 builder.build();
                 MenuController controller = new MenuController(builder.getNavigator());
 
                 controller.start();
 
         }
+        // сделать навигатор сингл тон
+        // доюавить опшионал на шоп и бук
+        // сделать вывод только во вью
+        // поменять коллекции
 }
+
+

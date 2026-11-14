@@ -65,7 +65,6 @@ public class Shop {
             System.out.println("Нельзя изменить статус завершённого заказа (" + current + ")");
             return;
         }
-
         switch (newStatus) {
             case COMPLETED:
                 if (!o.getBook().isStatus()) {
