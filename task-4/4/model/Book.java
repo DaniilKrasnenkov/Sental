@@ -20,13 +20,14 @@ public class Book {
         this.status=status;
     }
 
-    public Book(String author, LocalDate dateOfPublication, LocalDate dateOfReceipt, String description, String name, int price, boolean status) {
+    public Book(String name, String author, String description, int price,
+                LocalDate dateOfPublication, LocalDate dateOfReceipt, boolean status) {
+        this.name = name;
         this.author = author;
+        this.Description = description;
+        this.price = price;
         this.dateOfPublication = dateOfPublication;
         this.dateOfReceipt = dateOfReceipt;
-        Description = description;
-        this.name = name;
-        this.price = price;
         this.status = status;
     }
 
