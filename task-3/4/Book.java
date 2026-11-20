@@ -1,4 +1,4 @@
-package dz2_task4;
+
 
 public class Book {
     private String name;
